@@ -25,6 +25,6 @@ window.EVENTS = [
     "date": "2026-11-11",
     "start": "14:18",
     "where": "Hoobler 1st Floor Lobby",
-    "end": "14:20"
+    "end": "15:20"
   }
 ];
