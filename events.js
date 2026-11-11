@@ -18,4 +18,13 @@
 */
 
 window.EVENTS = [
+  {
+    "id": "emwci38x2h239",
+    "title": "This is a test",
+    "about": "There are things happening, trust",
+    "date": "2026-11-11",
+    "start": "14:18",
+    "where": "Hoobler 1st Floor Lobby",
+    "end": "14:20"
+  }
 ];
