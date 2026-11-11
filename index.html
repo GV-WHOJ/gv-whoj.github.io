@@ -116,6 +116,19 @@ h2 { margin: 0; font-weight: 900; font-size: 1.5rem; text-wrap: balance; }
 .break strong { font-weight: 900; font-size: 1.05rem; }
 .break p { margin: 4px 0 0; color: var(--muted); max-width: 70ch; }
 .btag { background: var(--off); color: var(--bg); font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; white-space: nowrap; }
+.evbar { background: #004343; border-bottom: 1px solid #0b6666; color: #ffffff; }
+.evbar .evin { max-width: 1080px; margin: 0 auto; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+.ev { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding-block: 14px; }
+.ev + .ev { border-top: 1px solid #0b6666; }
+.evtag { background: #94e3e3; color: #0e1616; font-weight: 900; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding: 5px 10px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.evtag.live { background: #8ff0b8; }
+.evtag.live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #0e1616; }
+.evtext { flex: 1 1 380px; min-width: 0; }
+.evtitle { font-weight: 900; font-size: 1.12rem; line-height: 1.25; }
+.evuntil { font-weight: 700; font-size: .9rem; color: #b8dede; margin-left: 8px; white-space: nowrap; }
+.evabout { margin: 2px 0 0; color: #d3eeee; font-size: .95rem; font-weight: 400; max-width: 70ch; }
+.evwhere { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.evwhere svg { flex: 0 0 auto; }
 .bnote { font-size: .88rem; font-weight: 700; color: var(--off); }
 .call.duty .bnote { color: #f0cf96; }
 .call.closed { opacity: .55; }
@@ -142,6 +155,8 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
 <style>[hidden]{display:none!important} body{margin:0} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
+
+<div class="evbar" id="eventBanner" role="region" aria-label="Events today" hidden></div>
 
 <div class="wrap">
   <header class="top">
@@ -242,6 +257,7 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
 })();
 </script>
 <script src="breaks.js"></script>
+<script src="events.js"></script>
 <script>
 const S = [
   { id: "lockout", title: "Locked out or lost something", items: [
@@ -418,6 +434,42 @@ function renderBanner() {
   el.hidden = false;
 }
 
+/* Events (edited in events.js, or from the Admin page) */
+const EVENTS = Array.isArray(window.EVENTS) ? window.EVENTS : [];
+const toMin = t => { const m = /^(\d{1,2}):(\d{2})$/.exec(t || ""); return m ? (+m[1]) * 60 + (+m[2]) : null; };
+const fmtTime = t => { const m = toMin(t); if (m === null) return ""; const h = Math.floor(m / 60), mm = m % 60; return (h % 12 || 12) + (mm ? ":" + String(mm).padStart(2, "0") : "") + (h >= 12 ? "pm" : "am"); };
+const PIN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94e3e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+function el(tag, cls, text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; }
+function renderEvents() {
+  const box = document.getElementById("eventBanner");
+  const now = new Date(), today = miDate(now);
+  const hp = new Intl.DateTimeFormat("en-US", { timeZone: "America/Detroit", hour: "numeric", minute: "numeric", hour12: false }).formatToParts(now);
+  const nowMin = (parseInt(hp.find(p => p.type === "hour").value, 10) % 24) * 60 + parseInt(hp.find(p => p.type === "minute").value, 10);
+  const todays = EVENTS
+    .filter(e => e && e.title && e.date === today)
+    .filter(e => !(toMin(e.end) !== null && toMin(e.end) <= nowMin))
+    .sort((a, b) => (toMin(a.start) ?? 0) - (toMin(b.start) ?? 0));
+  box.replaceChildren();
+  if (!todays.length) { box.hidden = true; return; }
+  const inner = el("div", "evin");
+  todays.forEach(e => {
+    const row = el("div", "ev");
+    const s = toMin(e.start), en = toMin(e.end);
+    const live = s !== null && en !== null && s <= nowMin && nowMin < en;
+    row.appendChild(el("span", "evtag" + (live ? " live" : ""), live ? "Happening now" : (s !== null ? "Today · " + fmtTime(e.start) : "Today")));
+    const text = el("div", "evtext");
+    const title = el("div", "evtitle", e.title);
+    if (live) title.appendChild(el("span", "evuntil", "Until " + fmtTime(e.end)));
+    text.appendChild(title);
+    if (e.about) text.appendChild(el("p", "evabout", e.about));
+    row.appendChild(text);
+    if (e.where) { const w = el("div", "evwhere"); w.insertAdjacentHTML("beforeend", PIN); w.appendChild(document.createTextNode(e.where)); row.appendChild(w); }
+    inner.appendChild(row);
+  });
+  box.appendChild(inner);
+  box.hidden = false;
+}
+
 function dutyLive() {
   const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/Detroit", weekday: "short", hour: "numeric", hour12: false }).formatToParts(new Date());
   const wd = parts.find(p => p.type === "weekday").value;
@@ -454,6 +506,7 @@ function setStatus() {
   document.getElementById("dutyBreak").hidden = !br;
   if (br) document.getElementById("dutyBreak").textContent = alt ? `Use this number for ${br.name}. Answered 24 hours.` : `On 24 hours for ${br.name}.`;
   renderBanner();
+  renderEvents();
 }
 setStatus(); setInterval(setStatus, 60000);
 
