@@ -210,7 +210,7 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
 
   <footer>
     <span>Questions this page doesn't answer? Message your RAs or call the duty phone.</span>
-    <span>Created by Joshua Eapen · Last updated October 21, 2026 · <a class="adminlink" href="admin.html">Admin</a></span>
+    <span>Created by Joshua Eapen · Last updated November 11, 2026 · <a class="adminlink" href="admin.html">Admin</a></span>
   </footer>
 </div>
 
@@ -245,7 +245,8 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
 <script>
 const S = [
   { id: "lockout", title: "Locked out or lost something", items: [
-    { h: "Locked out of your room", p: ["Go to the North Campus Desk in the Holton-Hooker lobby for a temporary key. After the desk closes, call the WHOJ RA Duty Phone."], k: "key lockout locked out door temp" },
+    { h: "Locked out of your room", p: ["Go to the North Campus Desk in the Holton-Hooker lobby for a temporary swipe card and brass key. After the desk closes, call the WHOJ RA Duty Phone."], k: "key lockout locked out door temp swipe card brass key" },
+    { h: "Locked out of the building", p: ["Go to the North Campus Desk in the Holton-Hooker lobby. They can give you a temporary swipe card and brass key. After the desk closes, call the WHOJ RA Duty Phone rather than texting an RA, so your request is on record."], k: "locked out building door entrance outside forgot id keys let in swipe card brass key temp desk" },
     { h: "Lost your room key", p: ["Go to the North Campus Desk in Holton-Hooker. Replacement keys are only given out there, not by your RA. If the desk is closed, call the WHOJ RA Duty Phone."], k: "key lost replacement" },
     { h: "Lost your GVSU ID", p: ["Replace it on the 3rd floor of the Student Services Building (STU), across from Starbucks. If your debit card or other cards were lost with it, file a report with GVPD and call your bank."], k: "id card gcard student id lost debit" },
     { h: "ID won't open the doors", p: ["Take your ID to the Student Services Building (STU), across from Starbucks, to get it fixed or replaced."], k: "id card swipe door not working access" },
@@ -267,21 +268,23 @@ const S = [
   ]},
   { id: "laundry", title: "Laundry", items: [
     { h: "Laundry is free", p: ["Load the machine, pick your settings, and press start. The WASH app only shows which machines are open. Ignore its add funds message."], k: "laundry washer dryer wash app free funds" },
-    { h: "Broken washer or dryer", p: ["Don't force a locked door open. Submit a WASH service request with the machine number."], l: [["WASH service request", "https://www.wash.com/service-request/"]], k: "washer broken dryer locked wet service request" },
+    { h: "Broken washer or dryer", p: ["Don't force a locked door open. Submit a WASH service request with the machine number. If water is leaking or flooding, call Facilities at <span class=\"mono\">(616) 331-3000</span> right away."], l: [["WASH service request", "https://www.wash.com/service-request/"]], k: "washer broken dryer locked wet service request" },
     { h: "Someone's clothes are still in the machine", p: ["Wait 15 minutes. After that, you can move their clothes. No need to message the group chat first."], k: "laundry clothes courtesy move 15 minutes" }
   ]},
   { id: "wifi", title: "Wi-Fi and devices", items: [
     { h: "Phones and laptops", p: ["Connect to GV-Student and sign in with your GVSU username and password. Never share your login."], l: [["GV-Student Wi-Fi guide", "https://services.gvsu.edu/TDClient/60/Portal/KB/Article/4453/GV-Student-WiFi-Network"]], k: "wifi internet password laptop phone gv-student connect" },
     { h: "TVs, consoles, Alexa, and other smart devices", p: ["Register the device's wireless MAC address, then connect it to GV-GameNet (no password). Chromecasts and wireless printers aren't supported."], l: [["Register a device", "https://services.gvsu.edu/TDClient/60/Portal/Requests/ServiceOfferingDet?ID=2338"], ["Step by step guide", "https://services.gvsu.edu/TDClient/60/Portal/KB/ArticleDet?ID=4634"], ["Smart TV guide", "https://services.gvsu.edu/TDClient/60/Portal/KB/ArticleDet?ID=21111"]], p2: "The registration form asks you to sign in with your GVSU account.", k: "tv roku xbox playstation switch alexa echo smart gamenet mac register" },
     { h: "Guests' devices", p: ["Guests can connect to GV-Visitor and accept the terms."], k: "guest wifi visitor" },
+    { h: "Wi-Fi down or very slow", p: ["If the Wi-Fi is out or crawling, submit an IT ticket. The more residents who report it, the faster it can be resolved."], l: [["Report a Wi-Fi problem", "https://services.gvsu.edu/TDClient/60/Portal/Requests/ServiceOffering/2343/Wifi-Wireless-Network-Connectivity-Issue/Request"]], k: "wifi outage down slow internet not working ticket connectivity" },
     { h: "Still not working", p: ["Contact IT at <span class=\"mono\">(616) 331-2101</span> or it@gvsu.edu, or walk up to the IT desk in the Mary Idema Pew Library, room 010."], l: [["IT help", "https://gvsu.edu/it/ticket"]], k: "it help support blackboard password" }
   ]},
   { id: "guests", title: "Guests and parking", items: [
     { h: "Weekend campus access, 10pm → 5am", p: ["Starting October 8, every Thursday, Friday, and Saturday night from 10pm → 5am, all cars must enter campus through the arch entrance on Campus Drive off Lake Michigan Drive. Other roads are blocked for entry, but you can exit from any road.", "Only students, faculty, staff, pre-registered guests, and a few others (food delivery, rideshare, contractors, emergency services, recreation ID holders) are let in. Always carry your GVSU ID. You'll show it at the entrance and when you enter your residence hall."], l: [["Valley Campus safety FAQ", "https://emma-assets.s3.amazonaws.com/v2vcb/d617f96159b64c7b9d9ed98e5a6f15ed/Valley_Campus_Safety_FAQs.pdf"]], k: "curfew lockdown 10pm weekend arch entrance access security id thursday friday saturday doordash uber" },
-    { h: "Guests during weekend hours", p: ["Register your guest by 5pm the day before they arrive. Guests who aren't registered by the deadline will be turned away at the entrance. This applies to any guest coming onto campus Thursday, Friday, or Saturday from 10pm → 5am.", "You're responsible for your guest. If they break university policy, you can face disciplinary action."], l: [["Guest registration form", "https://www.gvsu.edu/housing/form/dd730d0f-b67d-4ee1-a3ee-719cd6256beb/response/create"], ["Guest policy", "https://services.gvsu.edu/TDClient/60/Portal/KB/Article/5477/HRL-Guest-Policy"]], k: "guest register deadline 5pm day before visitor weekend turned away" },
+    { h: "Guests during weekend hours", p: ["Register your guest by 5pm the day before they arrive. Guests who aren't registered by the deadline will be turned away at the entrance. This applies to any guest who isn't a GVSU student coming onto campus Thursday, Friday, or Saturday from 10pm → 5am.", "You're responsible for your guest. If they break university policy, you can face disciplinary action."], l: [["Guest registration form", "https://www.gvsu.edu/housing/form/dd730d0f-b67d-4ee1-a3ee-719cd6256beb/response/create"], ["Guest policy", "https://services.gvsu.edu/TDClient/60/Portal/KB/Article/5477/HRL-Guest-Policy"]], k: "guest register deadline 5pm day before visitor weekend turned away" },
     { h: "Weekend parking lots", p: ["From 8pm Friday until 3am Monday, GVSU lots are closed to anyone who isn't a student, faculty or staff member, or registered guest. Unregistered cars get a $150 ticket per night and may be towed."], k: "parking weekend lot ticket tow 150 friday monday" },
     { h: "Gatherings during quiet hours", p: ["During quiet hours (10pm → 10am), gatherings of more than 10 people aren't allowed in residence hall lobbies or lounges, outside housing buildings, or in nearby parking lots. You can still hang out and socialize; this keeps late night gatherings safe and respectful of your neighbors."], k: "gathering party 10 people quiet hours lounge lobby" },
-    { h: "Register a guest", p: ["Register every guest using the form. One guest per resident, your roommate must agree first, you must stay with your guest in the building, and no more than 2 nights in a row."], l: [["Guest registration form", "https://www.gvsu.edu/housing/form/dd730d0f-b67d-4ee1-a3ee-719cd6256beb/response/create"], ["Guest policy", "https://services.gvsu.edu/TDClient/60/Portal/KB/Article/5477/HRL-Guest-Policy"]], k: "guest register visitor overnight policy friend" },
+    { h: "Register a guest", p: ["GVSU students don't need to be registered. Register every other guest using the form. One guest per resident, your roommate must agree first, you must stay with your guest in the building, and no more than 2 nights in a row."], l: [["Guest registration form", "https://www.gvsu.edu/housing/form/dd730d0f-b67d-4ee1-a3ee-719cd6256beb/response/create"], ["Guest policy", "https://services.gvsu.edu/TDClient/60/Portal/KB/Article/5477/HRL-Guest-Policy"]], k: "guest register visitor overnight policy friend" },
+    { h: "Resident parking", p: ["Check the sign at each lot before you park, since some lots are for staff or paid parking only. Permit and lot details are on the GVSU Parking Services page."], l: [["GVSU Parking Services", "https://www.gvsu.edu/parking/"]], k: "parking permit student lot resident car staff paid where can i park" },
     { h: "Guest parking", p: ["Visitors can get a free day permit from Parking Services in the Service Building with a photo ID and license plate number, or use pay to park spots. Overnight guests need an overnight permit, which the guest has to pick up in person."], p2: "Arriving after hours? Park in a yellow R resident space and get the permit by 7:30am the next morning. Parking Services: (616) 331-7275.", l: [["Visitor parking", "https://www.gvsu.edu/parking/guest-visitor-parking-102.htm"], ["Overnight visitor parking", "https://www.gvsu.edu/parking/overnight-visitor-parking-47"]], k: "parking permit visitor overnight lot car ticket" }
   ]},
   { id: "dining", title: "Dining", items: [
@@ -297,9 +300,15 @@ const S = [
     { h: "Safewalk", p: ["A free escort to or from anywhere on campus, any time you'd rather not walk alone."], l: [["Safewalk", "https://www.gvsu.edu/dps/safewalk-program-92.htm"]], k: "safewalk walk escort night safe" },
     { h: "Laker Guardian app", p: ["Set a check in timer for GVPD, share your location with people you trust, and reach campus safety quickly."], l: [["Laker Guardian", "https://www.gvsu.edu/dps/laker-guardian-129.htm"]], k: "laker guardian app safety" }
   ]},
+  { id: "campus", title: "Campus life", items: [
+    { h: "Academic calendar", p: ["Break dates, finals, and registration and payment deadlines are all on the Registrar's calendar."], l: [["Academic calendar", "https://www.gvsu.edu/registrar/academiccalendar.htm"]], k: "calendar break thanksgiving finals semester dates registration deadline schedule" }
+  ]},
   { id: "living", title: "Living together", items: [
     { h: "Roommate agreement", p: ["Required for every unit and part of your housing contract. Fill it out together; your RAs can help you through it."], l: [["Roommate agreement form", "https://www.gvsu.edu/housing/form/0e09627a-5278-4971-8100-fa45a7e3beca/response/create"]], k: "roommate agreement conflict" },
     { h: "Room changes and roommate concerns", p: ["Talk to your RAs first. Room changes go through your Community Director."], k: "room change move roommate problem" },
+    { h: "Noise complaints", p: ["If noise is bothering you, ask whoever is being loud to quiet down first. If it continues, call the WHOJ RA Duty Phone and the RA on duty will follow up. Call, don't text, so the issue is on record."], k: "noise loud complaint music quiet hours neighbor duty phone" },
+    { h: "Health and safety checks", p: ["Housing staff check every room once a semester, and you don't need to be there. They look for working fire safety equipment (a fire extinguisher under the sink and smoke detectors blinking red), prohibited items, policy violations, and cleanliness. A slip on your door or kitchen counter tells you whether you passed. If you fail, you get a recheck a couple of days later to fix the issue. Watch your GVSU email for the dates and the list of prohibited items."], k: "health safety check inspection room check fail pass recheck prohibited items smoke detector fire extinguisher" },
+    { h: "Housing for next year", p: ["Apply through Banner: log in, choose Students, then myHousing. If you plan to live off campus, confirm that in myHousing too."], l: [["GVSU Housing", "https://www.gvsu.edu/housing/"], ["Living off campus", "https://services.gvsu.edu/TDClient/60/Portal/KB/Article/6859/Living-Off-Campus"]], k: "housing next year fall apply application myhousing banner off campus renew contract" },
     { h: "Building basics", p: ["Quiet hours are 10pm → 10am every day. No electric scooters inside any building. Don't prop exterior doors or let in people you don't recognize. Clean up shared kitchens and lounges after you use them."], k: "quiet hours noise scooter door rules kitchen policy candles" }
   ]},
   { id: "support", title: "Support and campus resources", items: [
@@ -326,7 +335,7 @@ const pad = n => String(n).padStart(2, "0");
 
 const GROUPS = [
   { id: "housing", title: "Living in WHOJ", order: ["staff", "lockout", "workorders", "laundry", "wifi", "mail", "guests", "living"] },
-  { id: "thriving", title: "Thriving in and around campus", order: ["support", "dining", "transit", "printing"] }
+  { id: "thriving", title: "Thriving in and around campus", order: ["support", "dining", "transit", "printing", "campus"] }
 ];
 const ORDERED = [];
 GROUPS.forEach(g => g.order.forEach(id => { const s = S.find(x => x.id === id); if (s) ORDERED.push(Object.assign(s, { group: g })); }));
