@@ -82,7 +82,7 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(2rem, 6vw, 3.1rem); line-heig
 
 /* Main spread */
 .spread { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; margin-top: 44px; }
-.index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); align-self: start; border-left: 1px solid var(--line); padding-left: 18px; display: flex; flex-direction: column; gap: 10px; }
+.index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--stackh, 0px) + 20px); align-self: start; border-left: 1px solid var(--line); padding-left: 18px; display: flex; flex-direction: column; gap: 10px; }
 .index a { color: var(--muted); text-decoration: none; font-size: .98rem; display: flex; gap: 10px; }
 .index a span { font-variant-numeric: tabular-nums; color: var(--muted); opacity: .7; width: 1.4em; }
 .index a:hover, .index a.active { color: var(--fg); font-weight: 700; }
@@ -94,7 +94,7 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(2rem, 6vw, 3.1rem); line-heig
 .group + section { margin-top: -24px; }
 .glabel { margin: 10px 0 2px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
 .glabel:first-child { margin-top: 0; }
-section { scroll-margin-top: 24px; }
+section { scroll-margin-top: calc(var(--stackh, 0px) + 24px); }
 .sechead { display: flex; align-items: baseline; gap: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
 .sechead .n { background: var(--accent-fill); color: var(--on-fill); font-weight: 700; font-size: 13px; padding: 3px 8px; font-variant-numeric: tabular-nums; }
 h2 { margin: 0; font-weight: 900; font-size: 1.5rem; text-wrap: balance; }
@@ -119,6 +119,9 @@ h2 { margin: 0; font-weight: 900; font-size: 1.5rem; text-wrap: balance; }
 .break strong { font-weight: 900; font-size: 1.05rem; }
 .break p { margin: 4px 0 0; color: var(--muted); max-width: 70ch; }
 .btag { background: var(--off); color: var(--bg); font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; white-space: nowrap; }
+.stack { position: sticky; top: var(--pvh, 0px); z-index: 20; max-height: 45vh; overflow-y: auto; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+.stack:not(:has(> :not([hidden]))) { display: none; }
+.stack .break { margin: 0; border: 0; border-left: 4px solid var(--off); border-bottom: 1px solid var(--line); padding-inline: max(16px, calc((100vw - 1080px) / 2 + 16px)); }
 .evbar { background: #004343; border-bottom: 1px solid #0b6666; color: #ffffff; }
 .evbar .evin { max-width: 1080px; margin: 0 auto; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
 .ev { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding-block: 14px; }
@@ -159,7 +162,10 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
 </head>
 <body>
 
+<div class="stack" id="stack">
 <div class="evbar" id="eventBanner" role="region" aria-label="Events today" hidden></div>
+<div class="break" id="breakBanner" role="status" hidden></div>
+</div>
 
 <div class="wrap">
   <header class="top">
@@ -173,8 +179,6 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
       <input id="q" type="search" placeholder="Try &quot;locked out&quot; or &quot;printer&quot;" autocomplete="off">
     </div>
   </header>
-
-  <div class="break" id="breakBanner" role="status" hidden></div>
 
   <div class="calls">
     <p class="eyebrow">Who to call</p>
@@ -255,12 +259,20 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
     const bar = document.createElement("div");
     bar.className = "previewbar";
     bar.textContent = "Preview: " + t.toLocaleString("en-US", { timeZone: "America/Detroit", weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
-    document.body.prepend(bar);
+    document.body.prepend(bar); document.documentElement.style.setProperty("--pvh", bar.offsetHeight + "px");
   });
 })();
 </script>
 <script src="breaks.js"></script>
 <script src="events.js"></script>
+<script>
+/* keep anchors and the side index clear of the sticky banners */
+(function () {
+  const st = document.getElementById("stack");
+  const set = () => document.documentElement.style.setProperty("--stackh", (st.offsetHeight ? st.offsetHeight + (parseInt(getComputedStyle(document.documentElement).getPropertyValue("--pvh")) || 0) : 0) + "px");
+  if (window.ResizeObserver) new ResizeObserver(set).observe(st); set();
+})();
+</script>
 <script>
 const S = [
   { id: "lockout", title: "Locked out or lost something", items: [
