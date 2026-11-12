@@ -629,7 +629,7 @@ toTop.addEventListener("click", () => {
 });
 
 /* Copy buttons */
-document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", () => {
+document.querySelectorAll("button.copy").forEach(b => b.addEventListener("click", () => {
   const raw = b.dataset.copy, done = () => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1600); };
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(raw).then(done).catch(() => selectNum(b));
