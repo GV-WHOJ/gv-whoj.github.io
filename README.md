@@ -62,7 +62,7 @@ Event and break banners stay pinned to the top while the resident scrolls. On ph
 
 ### Sharing one answer
 
-Every answer has a Copy link button. RAs can paste the link into GroupMe and the resident lands on that exact answer, highlighted.
+Every answer has a small link icon next to its title. RAs can paste the link into GroupMe and the resident lands on that exact answer, highlighted.
 
 ### Phone friendly
 
