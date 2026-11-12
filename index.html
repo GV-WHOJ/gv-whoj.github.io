@@ -7,6 +7,14 @@
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>WHOJ Quick Links</title>
+<meta name="description" content="Answers for WHOJ residents at GVSU: who to call, lockouts, work orders, laundry, Wi-Fi, guests, printing, and campus resources.">
+<meta name="theme-color" content="#004343">
+<meta property="og:type" content="website">
+<meta property="og:title" content="WHOJ Quick Links">
+<meta property="og:description" content="Who to call, lockouts, work orders, laundry, Wi-Fi, and more for Weed, Hoobler, Ott, and Johnson residents.">
+<meta property="og:url" content="https://gv-whoj.github.io/">
+<meta property="og:image" content="https://gv-whoj.github.io/apple-touch-icon.png">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,700;6..12,900&display=swap">
 <style>
@@ -51,13 +59,13 @@ b, strong { font-weight: 700; }
 h1 { margin: 0; font-weight: 900; font-size: clamp(2rem, 6vw, 3.1rem); line-height: 1.05; letter-spacing: -.01em; text-wrap: balance; }
 .sub { margin: 8px 0 0; color: var(--muted); font-size: 1.05rem; }
 .search { flex: 1 1 280px; max-width: 360px; }
-.search label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.search label { display: block; font-size: .85rem; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
 .search input { width: 100%; box-sizing: border-box; font: inherit; font-weight: 400; color: var(--fg); background: var(--surface); border: 1px solid var(--line); padding: 12px 14px; border-radius: 0; }
 .search input::placeholder { color: var(--muted); }
 
 /* Call panel */
 .calls { margin-top: 28px; }
-.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.eyebrow { font-size: .9rem; font-weight: 700; color: var(--muted); margin: 0 0 12px; }
 .callgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .call { background: var(--bg); padding: 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .call.duty { background: var(--deep); color: #ffffff; }
@@ -71,6 +79,24 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(2rem, 6vw, 3.1rem); line-heig
 .status.on { color: #8ff0b8; }
 .status.offline { color: #f0cf96; }
 .steps { margin: 6px 0 0; padding-left: 1.4em; } .steps li { margin: 4px 0; }
+.quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.quick a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font-weight: 700; text-decoration: none; }
+.quick a:hover { border-color: var(--accent); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+a.copy { display: inline-flex; align-items: center; text-decoration: none; }
+.callbtn { display: none !important; background: var(--accent-fill); color: var(--on-fill); border-color: var(--accent-fill); opacity: 1; }
+.linkbtn { font: inherit; font-size: .85rem; font-weight: 700; background: none; border: 0; padding: 4px 0; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.linkbtn:hover { color: var(--fg); }
+.item { scroll-margin-top: calc(var(--stackh, 0px) + 24px); }
+.item.flash { background: var(--surface); box-shadow: -6px 0 0 var(--accent-fill); }
+.stacktoggle { display: none; width: 100%; min-height: 44px; border: 0; border-top: 1px solid rgba(255,255,255,.18); background: var(--deep); color: #fff; font: inherit; font-weight: 700; cursor: pointer; padding: 0 16px; text-align: left; }
+@media (pointer: coarse), (max-width: 760px) { .callbtn { display: inline-flex !important; } }
+@media (pointer: coarse) { .copy, .linkbtn { min-height: 44px; padding-inline: 14px; } .linkbtn { display: inline-flex; align-items: center; padding-inline: 0; } }
+@media (max-width: 760px) {
+  .stacktoggle { display: block; }
+  .stack[data-open="false"] .ev:nth-child(n+2), .stack[data-open="false"] .evabout, .stack[data-open="false"] .evwhere { display: none; }
+  .stack[data-open="false"] .break p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+}
 .copy { font: inherit; font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: transparent; color: inherit; border: 1px solid currentColor; padding: 4px 10px; cursor: pointer; opacity: .85; }
 .copy:hover { opacity: 1; }
 .call:not(.duty) .copy { color: var(--accent); }
@@ -85,19 +111,16 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(2rem, 6vw, 3.1rem); line-heig
 .spread { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; margin-top: 44px; }
 .index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--stackh, 0px) + 20px); align-self: start; border-left: 1px solid var(--line); padding-left: 18px; display: flex; flex-direction: column; gap: 10px; }
 .index a { color: var(--muted); text-decoration: none; font-size: .98rem; display: flex; gap: 10px; }
-.index a span { font-variant-numeric: tabular-nums; color: var(--muted); opacity: .7; width: 1.4em; }
 .index a:hover, .index a.active { color: var(--fg); font-weight: 700; }
 .content { display: flex; flex-direction: column; gap: 52px; min-width: 0; }
 .group { padding-top: 8px; }
 .group:not(:first-child) { margin-top: 28px; padding-top: 36px; border-top: 4px solid var(--accent-fill); }
-.group .eyebrow { margin-bottom: 6px; color: var(--accent); }
 .gtitle { margin: 0; font-weight: 900; font-size: clamp(1.7rem, 4.5vw, 2.2rem); line-height: 1.1; text-wrap: balance; }
 .group + section { margin-top: -24px; }
-.glabel { margin: 10px 0 2px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.glabel { margin: 10px 0 2px; font-size: .85rem; font-weight: 700; color: var(--accent); }
 .glabel:first-child { margin-top: 0; }
 section { scroll-margin-top: calc(var(--stackh, 0px) + 24px); }
 .sechead { display: flex; align-items: baseline; gap: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
-.sechead .n { background: var(--accent-fill); color: var(--on-fill); font-weight: 700; font-size: 13px; padding: 3px 8px; font-variant-numeric: tabular-nums; }
 h2 { margin: 0; font-weight: 900; font-size: 1.5rem; text-wrap: balance; }
 .items { display: flex; flex-direction: column; }
 .item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
@@ -163,9 +186,10 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
 </head>
 <body>
 
-<div class="stack" id="stack">
+<div class="stack" id="stack" data-open="false">
 <div class="evbar" id="eventBanner" role="region" aria-label="Events today" hidden></div>
 <div class="break" id="breakBanner" role="status" hidden></div>
+<button class="stacktoggle" id="stackToggle" type="button" aria-expanded="false" hidden>Show details</button>
 </div>
 
 <div class="wrap">
@@ -181,6 +205,15 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
     </div>
   </header>
 
+  <nav class="quick" aria-label="Common needs">
+    <a href="#lockout" data-goatcounter-click="quick: Locked out" data-goatcounter-title="Locked out" data-goatcounter-referrer="">Locked out</a>
+    <a href="#workorders" data-goatcounter-click="quick: Work order" data-goatcounter-title="Work order" data-goatcounter-referrer="">Work order</a>
+    <a href="#wifi" data-goatcounter-click="quick: Wi-Fi" data-goatcounter-title="Wi-Fi" data-goatcounter-referrer="">Wi-Fi</a>
+    <a href="#laundry" data-goatcounter-click="quick: Laundry" data-goatcounter-title="Laundry" data-goatcounter-referrer="">Laundry</a>
+    <a href="#printing" data-goatcounter-click="quick: Printing" data-goatcounter-title="Printing" data-goatcounter-referrer="">Printing</a>
+    <a href="#guests" data-goatcounter-click="quick: Guests and parking" data-goatcounter-title="Guests and parking" data-goatcounter-referrer="">Guests and parking</a>
+  </nav>
+
   <div class="calls">
     <p class="eyebrow">Who to call</p>
     <div class="callgrid">
@@ -190,18 +223,19 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
         <span class="hrs">Mon → Fri 8pm → 8am. 24 hours Sat and Sun.</span>
         <span class="bnote" id="dutyBreak" hidden></span>
         <span class="hint" id="dutyHint" hidden>Not on right now. Go to the North Campus Desk in HHLC until 8pm. For emergencies, call 911.</span>
-        <div><button class="copy" id="dutyCopy" data-copy="6168897920">Copy</button></div>
+        <div class="btns"><a class="copy callbtn" id="dutyCall" href="tel:6168897920">Call</a><button class="copy" id="dutyCopy" data-copy="6168897920">Copy</button></div>
       </div>
       <div class="call">
         <span class="name">Emergency</span>
         <span class="num">911</span>
         <span class="hrs">Always call 911 first in an emergency.</span>
+        <div class="btns"><a class="copy callbtn" href="tel:911">Call 911</a></div>
       </div>
       <div class="call">
         <span class="name">GVPD, non emergency</span>
         <span class="num">(616) 331-3255</span>
         <span class="hrs">24/7. Also handles after hours facilities emergencies.</span>
-        <div><button class="copy" data-copy="6163313255">Copy</button></div>
+        <div class="btns"><a class="copy callbtn" href="tel:6163313255">Call</a><button class="copy" data-copy="6163313255">Copy</button></div>
       </div>
       <div class="call" id="deskCard">
         <span class="nowtag" id="deskTag" hidden>Go here now</span>
@@ -209,19 +243,19 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
         <span class="bnote" id="deskClosed" hidden>Closed today for break. Call the RA Duty Phone.</span>
         <span class="num">(616) 331-3332</span>
         <span class="hrs">Mon → Fri 8am → 8pm. Sat and Sun 10am → 6pm. Main lobby of Holton-Hooker.</span>
-        <div><button class="copy" data-copy="6163313332">Copy</button></div>
+        <div class="btns"><a class="copy callbtn" href="tel:6163313332">Call</a><button class="copy" data-copy="6163313332">Copy</button></div>
       </div>
       <div class="call">
         <span class="name">Facilities</span>
         <span class="num">(616) 331-3000</span>
         <span class="hrs">Staffed Mon → Fri 7:30am → 6pm. Answered 24/7 for emergencies.</span>
-        <div><button class="copy" data-copy="6163313000">Copy</button></div>
+        <div class="btns"><a class="copy callbtn" href="tel:6163313000">Call</a><button class="copy" data-copy="6163313000">Copy</button></div>
       </div>
       <div class="call">
         <span class="name">Central Housing Office</span>
         <span class="num">(616) 331-2120</span>
         <span class="hrs">Mon → Fri 8am → 5pm. 3rd floor of Holton-Hooker.</span>
-        <div><button class="copy" data-copy="6163312120">Copy</button></div>
+        <div class="btns"><a class="copy callbtn" href="tel:6163312120">Call</a><button class="copy" data-copy="6163312120">Copy</button></div>
       </div>
     </div>
   </div>
@@ -381,28 +415,38 @@ ORDERED.forEach((s, i) => {
     index.appendChild(gl);
     const gh = document.createElement("div");
     gh.className = "group"; gh.dataset.group = s.group.id;
-    gh.innerHTML = `<p class="eyebrow">Part ${GROUPS.indexOf(s.group) + 1}</p><h2 class="gtitle">${s.group.title}</h2>`;
+    gh.innerHTML = `<h2 class="gtitle">${s.group.title}</h2>`;
     content.appendChild(gh);
   }
   const a = document.createElement("a");
   a.href = "#" + s.id;
-  a.innerHTML = `<span>${pad(i + 1)}</span>${s.title}`;
+  a.textContent = s.title;
   index.appendChild(a);
 
   const sec = document.createElement("section");
   sec.id = s.id;
   sec.dataset.group = s.group.id;
-  sec.innerHTML = `<div class="sechead"><span class="n">${pad(i + 1)}</span><h2>${s.title}</h2></div>`;
+  sec.innerHTML = `<div class="sechead"><h2>${s.title}</h2></div>`;
   const items = document.createElement("div");
   items.className = "items";
+  const used = new Set();
   s.items.forEach(it => {
     const d = document.createElement("div");
     d.className = "item";
+    let slug = s.id + "-" + it.h.toLowerCase().replace(/&[a-z]+;/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40), n = 2, base = slug;
+    while (used.has(slug)) slug = base + "-" + n++;
+    used.add(slug); d.id = slug;
     d.dataset.k = (s.title + " " + it.h + " " + it.p.join(" ") + " " + (it.ol ? it.ol.join(" ") : "") + " " + (it.p2 || "") + " " + it.k).toLowerCase();
     const body = it.p.map(t => `<p>${t}</p>`).join("") + (it.ol ? `<ol class="steps">${it.ol.map(t => `<li>${t}</li>`).join("")}</ol>` : "") + (it.p2 ? `<p class="muted">${it.p2}</p>` : "") + (it.addr ? `<div class="addr">${it.addr}</div>` : "") + (it.grid ? `<div class="bgrid">${it.grid.map(([b, v]) => `<div><span class="bname">${b}</span><span class="bval">${v}</span></div>`).join("")}</div>` + (it.gridNote ? `<p class="muted">${it.gridNote}</p>` : "") : "");
     if (it.grid) d.dataset.k += " " + it.grid.flat().join(" ").replace(/<br>/g, " ").toLowerCase();
     const links = it.l ? `<div class="links">${it.l.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener" data-goatcounter-click="${s.id}: ${t}" data-goatcounter-title="${t}" data-goatcounter-referrer="">${t}</a>`).join("")}</div>` : "<div></div>";
     d.innerHTML = `<h3>${it.h}</h3><div>${body}</div>${links}`;
+    const lk = d.querySelector(".links") || d.lastElementChild;
+    lk.classList.add("links");
+    const lb = document.createElement("button");
+    lb.type = "button"; lb.className = "linkbtn"; lb.textContent = "Copy link"; lb.dataset.link = slug;
+    lb.setAttribute("aria-label", "Copy link to " + it.h.replace(/<[^>]*>/g, ""));
+    lk.appendChild(lb);
     items.appendChild(d);
   });
   sec.appendChild(items);
@@ -518,12 +562,28 @@ function setStatus() {
   const num = alt ? br.dutyNumber : "(616) 889-7920";
   document.getElementById("dutyNum").textContent = num;
   document.getElementById("dutyCopy").dataset.copy = num.replace(/\D/g, "");
+  document.getElementById("dutyCall").href = "tel:" + num.replace(/\D/g, "");
   document.getElementById("dutyName").textContent = alt ? "Break Duty Phone" : "WHOJ RA Duty Phone";
   document.getElementById("dutyBreak").hidden = !br;
   if (br) document.getElementById("dutyBreak").textContent = alt ? `Use this number for ${br.name}. Answered 24 hours.` : `On 24 hours for ${br.name}.`;
   renderBanner();
   renderEvents();
+  syncStack();
 }
+/* Pinned banners: one line on phones until tapped */
+const stackEl = document.getElementById("stack"), stackBtn = document.getElementById("stackToggle");
+const narrow = window.matchMedia("(max-width: 760px)");
+function syncStack() {
+  const anyShown = !document.getElementById("eventBanner").hidden || !document.getElementById("breakBanner").hidden;
+  stackBtn.hidden = !(narrow.matches && anyShown);
+  const open = stackEl.dataset.open === "true";
+  const n = document.querySelectorAll("#eventBanner .ev").length;
+  stackBtn.textContent = open ? "Hide details" : (n > 1 ? (n - 1) + " more event" + (n > 2 ? "s" : "") + " today. Show details" : "Show details");
+  stackBtn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+stackBtn.addEventListener("click", () => { stackEl.dataset.open = stackEl.dataset.open === "true" ? "false" : "true"; syncStack(); });
+if (narrow.addEventListener) narrow.addEventListener("change", syncStack);
+
 setStatus(); setInterval(setStatus, 60000);
 
 /* Analytics (GoatCounter: anonymous visit and link click counts, no cookies).
@@ -538,6 +598,23 @@ setStatus(); setInterval(setStatus, 60000);
   gc.dataset.goatcounter = "https://whoj.goatcounter.com/count";
   document.body.appendChild(gc);
 })();
+
+/* Copy link to one answer, and open a linked answer */
+document.addEventListener("click", e => {
+  const b = e.target.closest(".linkbtn"); if (!b) return;
+  const url = location.origin + location.pathname + "#" + b.dataset.link;
+  const done = () => { b.textContent = "Link copied"; setTimeout(() => b.textContent = "Copy link", 1800); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => { prompt("Copy this link:", url); });
+  else prompt("Copy this link:", url);
+});
+function openHash() {
+  const id = decodeURIComponent(location.hash.slice(1)); if (!id) return;
+  const t = document.getElementById(id); if (!t) return;
+  t.scrollIntoView({ block: "start" });
+  if (t.classList.contains("item")) { t.classList.add("flash"); setTimeout(() => t.classList.remove("flash"), 3000); }
+}
+window.addEventListener("load", () => setTimeout(openHash, 50));
+window.addEventListener("hashchange", openHash);
 
 /* Back to top */
 const toTop = document.getElementById("totop");

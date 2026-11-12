@@ -1,0 +1,37 @@
+name: Link check
+
+# Checks every link in index.html on the 1st of each month, and on demand
+# from the Actions tab. If any link is broken, it opens an issue listing them.
+on:
+  schedule:
+    - cron: "0 13 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress --max-concurrency 4 --max-retries 2
+            --accept "100..=399,401,403,429"
+            --exclude "gc.zgo.at" --exclude "whoj.goatcounter.com" --exclude "fonts.googleapis.com"
+            index.html
+          fail: false
+          output: lychee-report.md
+      - name: Open an issue if links are broken
+        if: steps.lychee.outputs.exit_code != 0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "Broken links on the Quick Links page" \
+            --body-file lychee-report.md
