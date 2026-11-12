@@ -85,13 +85,14 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(2rem, 6vw, 3.1rem); line-heig
 .btns { display: flex; flex-wrap: wrap; gap: 8px; }
 a.copy { display: inline-flex; align-items: center; text-decoration: none; }
 .callbtn { display: none !important; background: var(--accent-fill); color: var(--on-fill); border-color: var(--accent-fill); opacity: 1; }
-.linkbtn { font: inherit; font-size: .85rem; font-weight: 700; background: none; border: 0; padding: 4px 0; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-.linkbtn:hover { color: var(--fg); }
+.linkbtn { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 6px; width: 28px; height: 28px; padding: 0; background: none; border: 0; color: var(--muted); opacity: .45; cursor: pointer; }
+.item:hover .linkbtn, .linkbtn:hover, .linkbtn:focus-visible { opacity: 1; }
+.linkbtn:hover { color: var(--accent); }
 .item { scroll-margin-top: calc(var(--stackh, 0px) + 24px); }
 .item.flash { background: var(--surface); box-shadow: -6px 0 0 var(--accent-fill); }
 .stacktoggle { display: none; width: 100%; min-height: 44px; border: 0; border-top: 1px solid rgba(255,255,255,.18); background: var(--deep); color: #fff; font: inherit; font-weight: 700; cursor: pointer; padding: 0 16px; text-align: left; }
 @media (pointer: coarse), (max-width: 760px) { .callbtn { display: inline-flex !important; } }
-@media (pointer: coarse) { .copy, .linkbtn { min-height: 44px; padding-inline: 14px; } .linkbtn { display: inline-flex; align-items: center; padding-inline: 0; } }
+@media (pointer: coarse) { .copy { min-height: 44px; padding-inline: 14px; } .linkbtn { width: 44px; height: 44px; margin: -8px -8px -8px 0; opacity: .6; } }
 @media (max-width: 760px) {
   .stacktoggle { display: block; }
   .stack[data-open="false"] .ev:nth-child(n+2), .stack[data-open="false"] .evabout, .stack[data-open="false"] .evwhere { display: none; }
@@ -429,6 +430,8 @@ ORDERED.forEach((s, i) => {
   sec.innerHTML = `<div class="sechead"><h2>${s.title}</h2></div>`;
   const items = document.createElement("div");
   items.className = "items";
+  window.ICON_LINK = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg>';
+  window.ICON_OK = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   const used = new Set();
   s.items.forEach(it => {
     const d = document.createElement("div");
@@ -441,12 +444,11 @@ ORDERED.forEach((s, i) => {
     if (it.grid) d.dataset.k += " " + it.grid.flat().join(" ").replace(/<br>/g, " ").toLowerCase();
     const links = it.l ? `<div class="links">${it.l.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener" data-goatcounter-click="${s.id}: ${t}" data-goatcounter-title="${t}" data-goatcounter-referrer="">${t}</a>`).join("")}</div>` : "<div></div>";
     d.innerHTML = `<h3>${it.h}</h3><div>${body}</div>${links}`;
-    const lk = d.querySelector(".links") || d.lastElementChild;
-    lk.classList.add("links");
     const lb = document.createElement("button");
-    lb.type = "button"; lb.className = "linkbtn"; lb.textContent = "Copy link"; lb.dataset.link = slug;
-    lb.setAttribute("aria-label", "Copy link to " + it.h.replace(/<[^>]*>/g, ""));
-    lk.appendChild(lb);
+    lb.type = "button"; lb.className = "linkbtn"; lb.dataset.link = slug; lb.innerHTML = ICON_LINK;
+    lb.dataset.label = "Copy link to " + it.h.replace(/<[^>]*>/g, "");
+    lb.setAttribute("aria-label", lb.dataset.label); lb.title = "Copy link";
+    d.querySelector("h3").appendChild(lb);
     items.appendChild(d);
   });
   sec.appendChild(items);
@@ -603,7 +605,7 @@ setStatus(); setInterval(setStatus, 60000);
 document.addEventListener("click", e => {
   const b = e.target.closest(".linkbtn"); if (!b) return;
   const url = location.origin + location.pathname + "#" + b.dataset.link;
-  const done = () => { b.textContent = "Link copied"; setTimeout(() => b.textContent = "Copy link", 1800); };
+  const done = () => { b.innerHTML = ICON_OK; b.title = "Link copied"; b.setAttribute("aria-label", "Link copied"); setTimeout(() => { b.innerHTML = ICON_LINK; b.title = "Copy link"; b.setAttribute("aria-label", b.dataset.label); }, 1800); };
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => { prompt("Copy this link:", url); });
   else prompt("Copy this link:", url);
 });
