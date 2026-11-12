@@ -20,13 +20,17 @@ This document explains what the site and its admin page can do, with screenshots
 
 ### Who to call, with live status
 
-The top of the page lists the numbers residents need most: the WHOJ RA Duty Phone, 911, GVPD non-emergency, North Campus Desk, Facilities, and the Central Housing Office. The page checks Michigan time and marks the duty phone as monitored or not, and the North Campus Desk as open or closed, so a resident sees the right number for the moment they are looking. Every number has a Copy button.
+The top of the page lists the numbers residents need most: the WHOJ RA Duty Phone, 911, GVPD non-emergency, North Campus Desk, Facilities, and the Central Housing Office. The page checks Michigan time and marks the duty phone as monitored or not, and the North Campus Desk as open or closed, so a resident sees the right number for the moment they are looking. Every number has a Copy button, and on phones a Call button that dials it directly.
 
 ![Home page on a weekday afternoon](docs/screenshots/01-home-weekday.png)
 
 After the desk closes, the duty phone is highlighted.
 
 ![Home page on a weekday night](docs/screenshots/06-duty-phone-night.png)
+
+### Common needs
+
+A row of buttons under the title jumps straight to the most asked-about answers: locked out, work orders, Wi-Fi, laundry, printing, and guests and parking.
 
 ### Search
 
@@ -52,9 +56,13 @@ Starting seven days before a university break, a banner shows the break dates an
 
 ### Banners stay visible
 
-Event and break banners stay pinned to the top while the resident scrolls. If many banners are active, the pinned area is limited to under half the screen and scrolls within itself.
+Event and break banners stay pinned to the top while the resident scrolls. On phones the pinned area shows one line until the resident taps Show details. If many banners are active, the pinned area is limited to under half the screen and scrolls within itself.
 
 ![Banners pinned while scrolled down the page](docs/screenshots/04-sticky-scroll.png)
+
+### Sharing one answer
+
+Every answer has a Copy link button. RAs can paste the link into GroupMe and the resident lands on that exact answer, highlighted.
 
 ### Phone friendly
 
