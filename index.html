@@ -70,6 +70,7 @@ h1 { margin: 0; font-weight: 900; font-size: clamp(2rem, 6vw, 3.1rem); line-heig
 .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .status.on { color: #8ff0b8; }
 .status.offline { color: #f0cf96; }
+.steps { margin: 6px 0 0; padding-left: 1.4em; } .steps li { margin: 4px 0; }
 .copy { font: inherit; font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: transparent; color: inherit; border: 1px solid currentColor; padding: 4px 10px; cursor: pointer; opacity: .85; }
 .copy:hover { opacity: 1; }
 .call:not(.duty) .copy { color: var(--accent); }
@@ -336,7 +337,7 @@ const S = [
   ]},
   { id: "living", title: "Living together", items: [
     { h: "Roommate agreement", p: ["Required for every unit and part of your housing contract. Fill it out together; your RAs can help you through it."], l: [["Roommate agreement form", "https://www.gvsu.edu/housing/form/0e09627a-5278-4971-8100-fa45a7e3beca/response/create"]], k: "roommate agreement conflict" },
-    { h: "Room changes and roommate concerns", p: ["Talk to your RAs first. Room changes go through your Community Director."], k: "room change move roommate problem" },
+    { h: "Room changes and roommate concerns", p: ["Talk to your RA first about roommate concerns. RAs are your first point of contact and will refer the situation to your Community Director if the circumstances of your conflict call for it.", "Getting on the room change waitlist takes three steps:"], ol: ["A roommate agreement is on file with Housing.", "You have attended a mediation with your roommate and your RA.", "You meet with your Community Director to be added to the waitlist."], k: "room change move roommate problem conflict mediation waitlist wait list switch rooms" },
     { h: "Noise complaints", p: ["If noise is bothering you, ask whoever is being loud to quiet down first. If it continues, call the WHOJ RA Duty Phone and the RA on duty will follow up. Call, don't text, so the issue is on record."], k: "noise loud complaint music quiet hours neighbor duty phone" },
     { h: "Health and safety checks", p: ["Housing staff check every room once a semester, and you don't need to be there. They look for working fire safety equipment (a fire extinguisher under the sink and smoke detectors blinking red), prohibited items, policy violations, and cleanliness. A slip on your door or kitchen counter tells you whether you passed. If you fail, you get a recheck a couple of days later to fix the issue. Watch your GVSU email for the dates and the list of prohibited items."], k: "health safety check inspection room check fail pass recheck prohibited items smoke detector fire extinguisher" },
     { h: "Housing for next year", p: ["Apply through Banner: log in, choose Students, then myHousing. If you plan to live off campus, confirm that in myHousing too."], l: [["GVSU Housing", "https://www.gvsu.edu/housing/"], ["Living off campus", "https://services.gvsu.edu/TDClient/60/Portal/KB/Article/6859/Living-Off-Campus"]], k: "housing next year fall apply application myhousing banner off campus renew contract" },
@@ -397,8 +398,8 @@ ORDERED.forEach((s, i) => {
   s.items.forEach(it => {
     const d = document.createElement("div");
     d.className = "item";
-    d.dataset.k = (s.title + " " + it.h + " " + it.p.join(" ") + " " + (it.p2 || "") + " " + it.k).toLowerCase();
-    const body = it.p.map(t => `<p>${t}</p>`).join("") + (it.p2 ? `<p class="muted">${it.p2}</p>` : "") + (it.addr ? `<div class="addr">${it.addr}</div>` : "") + (it.grid ? `<div class="bgrid">${it.grid.map(([b, v]) => `<div><span class="bname">${b}</span><span class="bval">${v}</span></div>`).join("")}</div>` + (it.gridNote ? `<p class="muted">${it.gridNote}</p>` : "") : "");
+    d.dataset.k = (s.title + " " + it.h + " " + it.p.join(" ") + " " + (it.ol ? it.ol.join(" ") : "") + " " + (it.p2 || "") + " " + it.k).toLowerCase();
+    const body = it.p.map(t => `<p>${t}</p>`).join("") + (it.ol ? `<ol class="steps">${it.ol.map(t => `<li>${t}</li>`).join("")}</ol>` : "") + (it.p2 ? `<p class="muted">${it.p2}</p>` : "") + (it.addr ? `<div class="addr">${it.addr}</div>` : "") + (it.grid ? `<div class="bgrid">${it.grid.map(([b, v]) => `<div><span class="bname">${b}</span><span class="bval">${v}</span></div>`).join("")}</div>` + (it.gridNote ? `<p class="muted">${it.gridNote}</p>` : "") : "");
     if (it.grid) d.dataset.k += " " + it.grid.flat().join(" ").replace(/<br>/g, " ").toLowerCase();
     const links = it.l ? `<div class="links">${it.l.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener" data-goatcounter-click="${s.id}: ${t}" data-goatcounter-title="${t}" data-goatcounter-referrer="">${t}</a>`).join("")}</div>` : "<div></div>";
     d.innerHTML = `<h3>${it.h}</h3><div>${body}</div>${links}`;
