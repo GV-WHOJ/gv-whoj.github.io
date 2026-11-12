@@ -36,7 +36,7 @@ A search box filters the full page as the resident types. Searching "printer", f
 
 ### 13 sections of answers
 
-Locked out or lost something, mail and packages, work orders and repairs, laundry, Wi-Fi and devices, guests and parking, dining, printing, getting around, campus life, living together, support and campus resources, and a section introducing the housing staff (the Community Director and RAs). The sections are grouped under "Living in WHOJ" and "Thriving in and around campus", and a side index lets residents jump between them.
+Locked out or lost something, mail and packages, work orders and repairs, laundry, Wi-Fi and devices, guests and parking, dining, printing, getting around, campus life, living together, support and campus resources, and a section introducing the housing staff (CD and RAs). The sections are grouped under "Living in WHOJ" and "Thriving in and around campus", and a side index lets residents jump between them.
 
 ### Event banner
 
@@ -62,13 +62,9 @@ Most residents will open the page on a phone, so the layout is built for narrow 
 
 ![Phone view with two events](docs/screenshots/05-phone.png)
 
-## The admin page
-
-The admin page is at `/admin.html`. It is not linked prominently and is excluded from search engines. It is for RAs who maintain the site.
-
 ### Sign in
 
-The admin page asks for a password. Please note that this is a convenience lock that keeps casual visitors out of the editor. It does not protect the site by itself. The real control over what gets published is the GitHub token described under "Connecting publishing" below.
+The admin page asks for a password. The real control over what gets published is the GitHub token described under "Connecting publishing" below.
 
 ![Admin sign-in](docs/screenshots/08-admin-signin.png)
 
@@ -82,7 +78,7 @@ Events are listed under Today, Coming up, and Past. Each can be edited or delete
 
 ### Breaks
 
-Breaks were previously edited by hand in a code file. They are now managed here: name, first and last day, banner message, whether the desk is open as usual, closed for the whole break, or closed on certain days, optional special desk hours, and an optional different duty phone number with an end date.
+Name, first and last day, banner message, whether the desk is open as usual, closed for the whole break, or closed on certain days, optional special desk hours, and an optional different duty phone number with an end date.
 
 ![Editing a break](docs/screenshots/11-admin-break-form.png)
 
@@ -97,24 +93,6 @@ Preview shows the resident page as it would look at any Michigan date and time, 
 Saving an event or break updates the live site. To allow this, the admin page is connected once per browser with a GitHub fine-grained token limited to this single repository (Contents: Read and write). The token is stored only in that browser, and the Lock button removes it. Saved changes appear on the live site within a couple of minutes.
 
 ![Connect publishing](docs/screenshots/13-admin-connect.png)
-
-## How it works
-
-| File | Purpose |
-|---|---|
-| `index.html` | The resident page, including all answers and links |
-| `events.js` | Event data, edited from the admin page |
-| `breaks.js` | Break data, edited from the admin page |
-| `admin.html` | The admin page |
-| `favicon.*`, `apple-touch-icon.png` | Site icons |
-
-Each save from the admin page is a commit to this repository, so every change has a history that can be reviewed or reverted.
-
-## Current limits
-
-- Only one person publishes. Other RAs cannot yet submit events for approval; they send them to the publisher.
-- Answers and links in `index.html` are edited in the code through a pull request, not from the admin page.
-- Links to GVSU pages should be re-checked each term, since university pages move.
 
 ## Maintainer
 
