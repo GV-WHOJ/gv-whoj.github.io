@@ -44,5 +44,14 @@ window.EVENTS = [
     "start": "07:00",
     "where": "CHO Conference Room",
     "end": "09:00"
+  },
+  {
+    "id": "emwef84ibv9x7",
+    "title": "Title Test2",
+    "about": "",
+    "date": "2026-11-13",
+    "start": "10:30",
+    "where": "Weed 2nd Floor Kitchen",
+    "end": "11:00"
   }
 ];
