@@ -26,5 +26,14 @@ window.EVENTS = [
     "start": "13:00",
     "where": "Hoobler 1st Floor Lobby",
     "end": "18:20"
+  },
+  {
+    "id": "emwef4tyyomd8",
+    "title": "HoobsGiving!",
+    "about": "Come share or partake in a Thanksgiving feast -- Hoobler style!",
+    "date": "2026-11-17",
+    "start": "20:00",
+    "where": "Hoobler 1st Floor Lobby",
+    "end": "21:00"
   }
 ];
