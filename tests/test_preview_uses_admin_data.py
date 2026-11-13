@@ -34,10 +34,11 @@ with sync_playwright() as p:
     pg.route("https://api.github.com/**", api)
     pg.goto(base + "/admin.html")
     pg.evaluate(f"localStorage.setItem('whojAdmin','{KEY}'); localStorage.setItem('whojGh','fake')")
-    pg.goto(base + "/admin.html?v=preview"); pg.wait_for_selector("button.evc", timeout=8000)
-    chip = pg.locator("button.evc", has_text="Fresh Event: happening now")
-    assert chip.count() == 1, "chip for the freshly saved event is missing"
-    chip.click(); pg.wait_for_timeout(1500)
+    pg.goto(base + "/admin.html?v=preview"); pg.wait_for_selector(".cats button", timeout=8000)
+    pg.click(".cats button:has-text('Events')")
+    item = pg.locator(".items button", has_text="Fresh Event")
+    assert item.count() == 1, "item for the freshly saved event is missing"
+    item.click(); pg.click(".moments button:has-text('Happening now')"); pg.wait_for_timeout(1500)
     text = pg.frame_locator("iframe").locator("#eventBanner").inner_text()
     b.close()
 if "Fresh Event" in text and "HAPPENING NOW" in text.upper():

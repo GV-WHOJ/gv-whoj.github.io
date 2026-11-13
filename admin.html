@@ -296,7 +296,7 @@ async function reloadFresh() { try { await loadAll(); } catch (e) { toast(e.mess
 
 /* ---------- state ---------- */
 let view = "events", editing = null, brEditing = null, loaded = false, loadErr = "";
-const state = { at: miNow(), phone: false };
+const state = { at: miNow(), phone: false, cat: "weekday", item: null };
 
 /* ---------- views ---------- */
 function setView(v) { view = v; editing = null; brEditing = null; render(); window.scrollTo(0, 0); }
@@ -540,26 +540,34 @@ async function renderPreview(wrap) {
   const chipsEl = el("div", { style: "display:flex;flex-direction:column;gap:20px" });
   const handOff = () => { try { if (loaded) localStorage.setItem("whojPreviewData", JSON.stringify({ events, breaks })); else localStorage.removeItem("whojPreviewData"); } catch (e) {} };
   const go = v => { state.at = v; at.value = v; handOff(); frame.src = "index.html?at=" + encodeURIComponent(v) + "&r=" + Date.now(); drawChips(); };
-  const group = (title, arr) => arr.length ? el("div", { class: "group" }, el("h3", { class: "eyebrow" }, title), el("div", { class: "chips" }, arr)) : null;
   const chip = (label, v, cls) => el("button", { type: "button", class: (cls || "") + (state.at === v ? " cur" : ""), onclick: () => go(v) }, label);
+  const pick = (label, on, fn, cls) => el("button", { type: "button", class: (cls || "") + (on ? " cur" : ""), onclick: fn }, label);
+  const row = (title, cls, kids) => el("div", { class: "group" }, el("h3", { class: "eyebrow" }, title), el("div", { class: "chips " + cls }, kids));
   function drawChips() {
-    const duty = [
-      chip("Weekday 7:59am (duty phone ending)", nextWeekday(3, "07:59")), chip("Weekday 8am (desk opens)", nextWeekday(3, "08:00")),
-      chip("Weekday 7:59pm (desk closing)", nextWeekday(3, "19:59")), chip("Weekday 8pm (duty phone on)", nextWeekday(3, "20:00")),
-      chip("Saturday 9am (duty phone)", nextWeekday(6, "09:00")), chip("Saturday 10am (desk opens)", nextWeekday(6, "10:00")),
-      chip("Saturday 6pm (desk closed)", nextWeekday(6, "18:00")), chip("Monday 8am (weekend coverage ends)", nextWeekday(1, "08:00"))];
-    const br = [];
-    breaks.filter(b => b.end >= today()).forEach(b => {
-      br.push(chip(`${b.name}: week before`, shiftDays(b.start, -3) + "T12:00", "brk"), chip(`${b.name}: first day`, b.start + "T12:00", "brk"));
-      (b.deskClosedDays || []).forEach(([a]) => br.push(chip(`${b.name}: desk closed`, a + "T12:00", "brk")));
-    });
-    const ev = [];
-    events.slice().sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start)).forEach(e => {
-      if (e.date < today()) return;
-      ev.push(chip(`${e.title}: before`, e.date + "T" + (e.start > "01:00" ? pad(Math.max(0, +e.start.slice(0, 2) - 1)) + e.start.slice(2) : "00:00"), "evc"));
-      if (e.end) ev.push(chip(`${e.title}: happening now`, e.date + "T" + e.start, "evc"));
-    });
-    chipsEl.replaceChildren(...[group("Duty phone and desk", duty), group("Breaks", br), group("Events", ev)].filter(Boolean));
+    const wk = (dow, t, label) => chip(`${fmtTime(t)} · ${label}`, nextWeekday(dow, t));
+    const upBreaks = breaks.filter(b => b.end >= today());
+    const upEvents = events.filter(e => e.date >= today()).sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
+    const cats = [["weekday", "Weekday"], ["saturday", "Saturday"], ["monday", "Monday"]];
+    if (upBreaks.length) cats.push(["breaks", "Breaks"]);
+    if (upEvents.length) cats.push(["events", "Events"]);
+    if (!cats.some(c => c[0] === state.cat)) state.cat = "weekday";
+    const rows = [row("What do you want to preview?", "cats", cats.map(([k, label]) => pick(label, state.cat === k, () => { state.cat = k; drawChips(); })))];
+    if (state.cat === "weekday") rows.push(row("Which moment?", "moments", [wk(3, "07:59", "Duty phone ending"), wk(3, "08:00", "Desk opens"), wk(3, "19:59", "Desk closing"), wk(3, "20:00", "Duty phone on")]));
+    if (state.cat === "saturday") rows.push(row("Which moment?", "moments", [wk(6, "09:00", "Duty phone"), wk(6, "10:00", "Desk opens"), wk(6, "18:00", "Desk closed")]));
+    if (state.cat === "monday") rows.push(row("Which moment?", "moments", [wk(1, "08:00", "Weekend coverage ends")]));
+    if (state.cat === "breaks") {
+      const b = upBreaks.find(x => x.name === state.item) || upBreaks[0]; state.item = b.name;
+      rows.push(row("Which break?", "items", upBreaks.map(x => pick(x.name, x === b, () => { state.item = x.name; drawChips(); }, "brk"))));
+      rows.push(row("Which moment?", "moments", [chip("Week before", shiftDays(b.start, -3) + "T12:00", "brk"), chip("First day", b.start + "T12:00", "brk"),
+        ...(b.deskClosedDays || []).map(([a]) => chip("Desk closed " + fmtDate(a).replace(/, \d{4}$/, ""), a + "T12:00", "brk"))]));
+    }
+    if (state.cat === "events") {
+      const e = upEvents.find(x => x.id === state.item) || upEvents[0]; state.item = e.id;
+      rows.push(row("Which event?", "items", upEvents.map(x => pick(x.title, x === e, () => { state.item = x.id; drawChips(); }, "evc"))));
+      const before = e.date + "T" + (e.start > "01:00" ? pad(Math.max(0, +e.start.slice(0, 2) - 1)) + e.start.slice(2) : "00:00");
+      rows.push(row("Which moment?", "moments", [chip("Before it starts", before, "evc"), ...(e.end ? [chip("Happening now", e.date + "T" + e.start, "evc")] : [])]));
+    }
+    chipsEl.replaceChildren(...rows);
   }
   at.addEventListener("change", () => at.value && go(at.value));
   const phoneBtn = el("button", { type: "button", class: state.phone ? "on" : "", onclick: () => { state.phone = true; frame.classList.add("phone"); phoneBtn.classList.add("on"); deskBtn.classList.remove("on"); } }, "Phone");
