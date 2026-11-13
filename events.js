@@ -35,5 +35,14 @@ window.EVENTS = [
     "start": "20:00",
     "where": "Hoobler 1st Floor Lobby",
     "end": "21:00"
+  },
+  {
+    "id": "emwef6qxgkdt4",
+    "title": "Staff Meeting! [Title Test]",
+    "about": "We do things, trust [Short Description]",
+    "date": "2026-11-13",
+    "start": "07:00",
+    "where": "CHO Conference Room",
+    "end": "09:00"
   }
 ];
