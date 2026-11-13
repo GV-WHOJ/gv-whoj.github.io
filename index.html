@@ -281,6 +281,7 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
   let ok = false;
   try { ok = localStorage.getItem("whojAdmin") === "42a03c7096d17d62a3ef7b37940b86a07d4d6b1a069916d1091f759482be7d55"; } catch (e) {}
   if (!ok) return;   /* only unlocked admins can preview; everyone else sees the real time */
+  window.__previewOK = true;
   const RealDate = Date;
   const hourIn = d => new Intl.DateTimeFormat("en-US", { timeZone: "America/Detroit", hour: "numeric", hour12: false }).format(d) % 24;
   let t = new RealDate(at + ":00-04:00");
@@ -301,6 +302,17 @@ footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
 </script>
 <script src="breaks.js"></script>
 <script src="events.js"></script>
+<script>
+/* Preview mode only: use the admin's own events and breaks, so edits that haven't published yet still show. */
+(function () {
+  if (!window.__previewOK) return;
+  try {
+    const d = JSON.parse(localStorage.getItem("whojPreviewData") || "null");
+    if (d && Array.isArray(d.events)) window.EVENTS = d.events;
+    if (d && Array.isArray(d.breaks)) window.BREAKS = d.breaks;
+  } catch (e) {}
+})();
+</script>
 <script>
 /* keep anchors and the side index clear of the sticky banners */
 (function () {

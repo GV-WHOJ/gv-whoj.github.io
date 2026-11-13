@@ -538,7 +538,8 @@ async function renderPreview(wrap) {
   const frame = el("iframe", { title: "Quick Links preview", class: state.phone ? "phone" : "" });
   const at = el("input", { type: "datetime-local", id: "pvat" }); at.value = state.at;
   const chipsEl = el("div", { style: "display:flex;flex-direction:column;gap:20px" });
-  const go = v => { state.at = v; at.value = v; frame.src = "index.html?at=" + encodeURIComponent(v) + "&r=" + Date.now(); drawChips(); };
+  const handOff = () => { try { if (loaded) localStorage.setItem("whojPreviewData", JSON.stringify({ events, breaks })); else localStorage.removeItem("whojPreviewData"); } catch (e) {} };
+  const go = v => { state.at = v; at.value = v; handOff(); frame.src = "index.html?at=" + encodeURIComponent(v) + "&r=" + Date.now(); drawChips(); };
   const group = (title, arr) => arr.length ? el("div", { class: "group" }, el("h3", { class: "eyebrow" }, title), el("div", { class: "chips" }, arr)) : null;
   const chip = (label, v, cls) => el("button", { type: "button", class: (cls || "") + (state.at === v ? " cur" : ""), onclick: () => go(v) }, label);
   function drawChips() {
