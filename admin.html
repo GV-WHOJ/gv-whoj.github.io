@@ -565,7 +565,7 @@ async function renderPreview(wrap) {
       const e = upEvents.find(x => x.id === state.item) || upEvents[0]; state.item = e.id;
       rows.push(row("Which event?", "items", upEvents.map(x => pick(x.title, x === e, () => { state.item = x.id; drawChips(); }, "evc"))));
       const before = e.date + "T" + (e.start > "01:00" ? pad(Math.max(0, +e.start.slice(0, 2) - 1)) + e.start.slice(2) : "00:00");
-      rows.push(row("Which moment?", "moments", [chip("Before it starts", before, "evc"), ...(e.end ? [chip("Happening now", e.date + "T" + e.start, "evc")] : [])]));
+      rows.push(row("Which moment?", "moments", [chip("Before it starts", before, "evc"), ...(e.end ? [chip("Happening now", e.date + "T" + e.start, "evc")] : [chip("During the day", e.date + "T" + e.start, "evc")])]));
     }
     chipsEl.replaceChildren(...rows);
   }
