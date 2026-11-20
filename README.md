@@ -54,6 +54,12 @@ Starting seven days before a university break, a banner shows the break dates an
 
 ![Break banner for Thanksgiving Recess](docs/screenshots/03-break-banner.png)
 
+### Policy notice
+
+For important policy changes, an amber notice sits above all other banners until a resident dismisses it. It has a headline, up to three short points, and a "Read the full details" button. A dismissed notice stays hidden on that device. The tag counts down ("Starts Mon, Nov 30") and switches to "In effect now" once the change starts, and the notice disappears after its last day. It scrolls away with the page instead of pinning like event and break banners.
+
+Notices are written by hand in `notices.js`, which explains each setting. To show a notice again to people who dismissed it, change its `id`. The first notice covers the overnight door access change that starts November 30: from 10pm → 6am only the main door works, residents may be asked to show their GV ID at the housing desk inside the main doors, and the other exterior doors are emergency exit only. It links to the "Overnight building access" section, which is first in Living in WHOJ and first in the common needs row.
+
 ### Banners stay visible
 
 Event and break banners stay pinned to the top while the resident scrolls. On phones the pinned area shows one line until the resident taps Show details. If many banners are active, the pinned area is limited to under half the screen and scrolls within itself.
